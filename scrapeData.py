@@ -58,7 +58,8 @@ def scrapeTeam():
 			for a in th.find_all("a"):
 				if os.name == "nt":
 					teamCode = str(a.text.encode("utf-8"))[2:-1]
-
+				else:
+					teamCode = a.text.encode("utf-8")
 				print(teamCode)
 				directory = os.getcwd() + '/' + teamCode
 				if not os.path.exists(directory):
