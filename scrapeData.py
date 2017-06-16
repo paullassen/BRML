@@ -27,6 +27,7 @@ def scrapeData(playerCode, teamCode):
 
 def scrapePlayer(teamCode):
 	url = 'http://www.baseball-reference.com/teams/' + teamCode + '/2017-roster.shtml'
+	print(url)
 	resultsPage = requests.get(url)
 	soup = BeautifulSoup(resultsPage.text, "html5lib")
 	table = soup.select_one("#appearances")
