@@ -2,6 +2,7 @@
 
 import csv
 import requests
+import re
 from bs4 import BeautifulSoup
 
 
@@ -18,11 +19,10 @@ def scrapeData(playerCode):
 		headers = ["Gcar", "Gtm", "Date", "Tm", "Away" ,"Opp", "Rslt", "Inngs", "PA", "AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "IBB", "SO", "HBP", "SH", "SF", "ROE", "GDP", "SB", "CS", "BA", "OBP", "SLG", "OPS", "BOP", "aLI", "WPA", "RE24", "Pos"]
 		filename = playerCode + '.csv'
 		if (table != None):
-			with open("out6.csv", "a") as f:
-			    wr = csv.writer(f)
-
-		    	wr.writerow(headers)
-			    wr.writerows([[td.text.encode("utf-8") for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
+			with open(filename, "a") as f:
+				wr = csv.writer(f)
+				wr.writerow(headers)
+				wr.writerows([[td.text.encode("utf-8") for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
 	return
 
 def scrapePlayer(teamCode):
@@ -39,6 +39,7 @@ def scrapePlayer(teamCode):
 			for a in th.find_all("a"):
 				nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
 				scrapeData(nameCode)
+	return
 
 def scrapeTeam():
 	url = 'http://www.baseball-reference.com/leagues/MLB/2017.shtml'
@@ -55,3 +56,6 @@ def scrapeTeam():
 			for a in th.find_all("a"):
 				teamCode = a.text.encode("utf-8")
 				scrapePlayer(teamCode)
+	return
+
+scrapeTeam()
