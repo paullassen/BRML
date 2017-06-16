@@ -31,16 +31,15 @@ def scrapePlayer(teamCode):
 	soup = BeautifulSoup(resultsPage.text, "html5lib")
 	table = soup.select_one("#appearances")
 
-	if (table != None):
-		rows = table.select("tbody tr")
+	rows = table.select("tbody tr")
 
-		nameCodes = []
-		for row in rows:
-			for th in row.find_all("th"):	
-				for a in th.find_all("a"):
-					nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
-					print('Scraping data for ' + nameCode + ' in team ' + teamCode)
-					scrapeData(nameCode, teamCode)
+	nameCodes = []
+	for row in rows:
+		for th in row.find_all("th"):	
+			for a in th.find_all("a"):
+				nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
+				print('Scraping data for ' + nameCode + ' in team ' + teamCode)
+				scrapeData(nameCode, teamCode)
 	return
 
 def scrapeTeam():
@@ -57,7 +56,7 @@ def scrapeTeam():
 		for th in row.find_all("th"):
 			for a in th.find_all("a"):
 				teamCode = str(a.text.encode("utf-8"))[2:-1]
-				
+				print(teamCode)
 				directory = os.getcwd() + '/' + teamCode
 				if not os.path.exists(directory):
 					os.makedirs(directory)
