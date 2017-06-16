@@ -27,7 +27,6 @@ def scrapeData(playerCode, teamCode):
 
 def scrapePlayer(teamCode):
 	url = 'http://www.baseball-reference.com/teams/' + teamCode + '/2017-roster.shtml'
-	print(url)
 	resultsPage = requests.get(url)
 	soup = BeautifulSoup(resultsPage.text, "html5lib")
 	table = soup.select_one("#appearances")
@@ -39,6 +38,7 @@ def scrapePlayer(teamCode):
 		for th in row.find_all("th"):	
 			for a in th.find_all("a"):
 				nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
+				print('Scraping data for ' + nameCode + ' in team ' + teamCode)
 				scrapeData(nameCode, teamCode)
 	return
 
