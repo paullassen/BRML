@@ -31,15 +31,16 @@ def scrapePlayer(teamCode):
 	soup = BeautifulSoup(resultsPage.text, "html5lib")
 	table = soup.select_one("#appearances")
 
-	rows = table.select("tbody tr")
+	if (table != None):
+		rows = table.select("tbody tr")
 
-	nameCodes = []
-	for row in rows:
-		for th in row.find_all("th"):	
-			for a in th.find_all("a"):
-				nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
-				print('Scraping data for ' + nameCode + ' in team ' + teamCode)
-				scrapeData(nameCode, teamCode)
+		nameCodes = []
+		for row in rows:
+			for th in row.find_all("th"):	
+				for a in th.find_all("a"):
+					nameCode = (re.search(r"(\w)+(?=\.shtml)", str(a)).group(0))
+					print('Scraping data for ' + nameCode + ' in team ' + teamCode)
+					scrapeData(nameCode, teamCode)
 	return
 
 def scrapeTeam():
