@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def scrapeData(playerCode, teamCode):
 	year = 2009
-	not_entered = True
+	writtenHeader = False
 	while (year != 2018):
 		url = 'http://www.baseball-reference.com/players/gl.fcgi?id=' + str(playerCode) + '&t=b&year=' + str(year)
 		resultsPage = requests.get(url)
@@ -21,8 +21,10 @@ def scrapeData(playerCode, teamCode):
 		if (table != None):
 			with open(filename, "a") as f:
 				wr = csv.writer(f)
-				wr.writerow(headers)
-				wr.writerows([[td.text.encode("utf-8") for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
+				if not writtenHeader:
+					wr.writerow(headers)
+					writtenHeader = True
+				wr.writerows([[td.text for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
 	return
 
 def scrapePlayer(teamCode):
