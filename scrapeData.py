@@ -24,7 +24,10 @@ def scrapeData(playerCode, teamCode):
 				if not writtenHeader:
 					wr.writerow(headers)
 					writtenHeader = True
-				wr.writerows([[td.text for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
+				if sys.version[0] == '2':
+					wr.writerows([[td.text.encode("utf-8") for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
+				else
+					wr.writerows([[td.text for td in row.find_all("td")] for row in table.select("tbody tr[id]")])
 	return
 
 def scrapePlayer(teamCode):
